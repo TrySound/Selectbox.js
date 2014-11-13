@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" >
+		<title>jQuery SelectBox plugin</title>
+		<link rel="stylesheet" href="src/selectbox.css">
+		<style>
+.sb-container {
+	display: block;
+	margin-bottom: 20px;
+}
+.sb-container + button {
+	width: 200px;
+	height: 30px;
+	background: #444;
+	border: 1px solid #222;
+	color: #fff;
+	cursor: pointer;
+	outline: 0;
+}
+		</style>
+	</head>
+	<body>
+	
+	<form action="">
+		<select name="country_id">
+			<option value="">-- Select country --</option>
+			<optgroup label="North America">
+				<option value="1">USA</option>
+				<option value="9">Canada</option>
+			</optgroup>
+			<optgroup label="Europe">
+				<option value="2">France</option>
+				<option value="3">Spain</option>
+				<option value="6">Bulgaria</option>
+				<option value="7" disabled>Greece</option>
+				<option value="8">Italy</option>
+			</optgroup>
+			<optgroup label="Asia" disabled>
+				<option value="5">Japan</option>
+				<option value="11">China</option>
+			</optgroup>
+			<option value="4">Brazil</option>
+			<option value="10">South Africa</option>
+		</select>
+
+		<button>Send</button>
+	</form>
+
+	<script src="src/selectbox.js"></script>
+	<script>
+		Selectbox('select');
+	</script>
+
+	</body>
+</html>
