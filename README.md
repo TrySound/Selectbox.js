@@ -8,6 +8,18 @@ Was inspired by [jQuery Selectbox Plugin](http://www.bulgaria-web-developers.com
 
 ##Using
 
+Just add `sb-init` class to a `select`. If you need to add custom class add `data-sb-custom` attribute with this classname
+
+```html
+<select class="sb-init" data-sb-custom="custom-selectbox-class">
+	<option>...</option>
+	<option>...</option>
+	<option>...</option>
+</select>
+```
+
+or
+
 ```js
 var sb = Selectbox(selector, settings);
 ```
@@ -16,18 +28,13 @@ var sb = Selectbox(selector, settings);
 
 `custom` - className for selectbox containers
 
-###Callbacks
+**Callbacks:**
 
-`onInit`
-
-`onChange`
-
-`onOpen`
-
-`onClose`
-
-`onEnable`
-
+`onInit`,
+`onChange`,
+`onOpen`,
+`onClose`,
+`onEnable`,
 `onDisable`
 
 

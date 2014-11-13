@@ -23,27 +23,7 @@
 	<body>
 	
 	<form action="">
-		<select name="country_id">
-			<option value="">-- Select country --</option>
-			<optgroup label="North America">
-				<option value="1">USA</option>
-				<option value="9">Canada</option>
-			</optgroup>
-			<optgroup label="Europe">
-				<option value="2">France</option>
-				<option value="3">Spain</option>
-				<option value="6">Bulgaria</option>
-				<option value="7" disabled>Greece</option>
-				<option value="8">Italy</option>
-			</optgroup>
-			<optgroup label="Asia" disabled>
-				<option value="5">Japan</option>
-				<option value="11">China</option>
-			</optgroup>
-			<option value="4">Brazil</option>
-			<option value="10">South Africa</option>
-		</select>
-		<select name="country_id">
+		<select name="country_id" class="sb-init">
 			<option value="">-- Select country --</option>
 			<optgroup label="North America">
 				<option value="1">USA</option>
@@ -68,11 +48,6 @@
 	</form>
 
 	<script src="src/selectbox.js"></script>
-	<script>
-		Selectbox('select', {
-			custom: 'custom-selectbox'
-		});
-	</script>
 
 	</body>
 </html>

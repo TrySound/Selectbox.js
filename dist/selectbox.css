@@ -1,5 +1,5 @@
 /**
- * Selectbox.js 0.1.0 (2014-11-13) - Stylized Selectbox UI
+ * Selectbox.js 0.1.0 (2014-11-14) - Stylized Selectbox UI
  * Bogdan Chadkin - https://github.com/TrySound/Selectbox.js
  * Free to use under terms of MIT license
  */
@@ -124,13 +124,17 @@
 	width: 100%;
 	height: 0;
 	background: #212121;
-	border: solid 1px #515151;
+	border-left: solid 1px #515151;
+	border-right: solid 1px #515151;
 	-webkit-transition: max-height .3s ease-in-out, height .3s ease-in-out;
 	        transition: max-height .3s ease-in-out, height .3s ease-in-out;
 
 	line-height: 32px;
 }
 
+.sb-open .sb-options {
+	z-index: 300;
+}
 
 .sb-group {
 	color: #ebb52d;

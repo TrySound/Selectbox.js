@@ -1,12 +1,10 @@
 (function (module) {
 	"use strict";
 
-	module(window, document);
+	window.Selectbox = module(window, document);
 
 } (function (window, document) {
 	"use strict";
-
-
 
 
 	/**
@@ -465,7 +463,7 @@
 		// Targets Normalize
 		if(typeof selector === 'string') {
 			targets = document.querySelectorAll(selector);
-		} else if(selector.length) {
+		} else if(selector.length && ! selector.tagName) {
 			targets = selector;
 		} else {
 			targets = [selector];
@@ -537,6 +535,19 @@
 	};
 
 
-	window.Selectbox = Selectbox;
+	// Auto-initialize
+
+	document.addEventListener('DOMContentLoaded', function () {
+		var el = document.getElementsByClassName('sb-init'),
+			i, max;
+		for(i = 0, max = el.length; i < max; i++) {
+			Selectbox(el[i], {
+				custom: el[i].getAttribute('data-sb-custom')
+			});
+		}
+	}, false);
+
+
+	return Selectbox;
 
 }));
