@@ -316,6 +316,10 @@
 				target.style.display = 'none';
 
 				inst.settings = settings || {};
+				
+				if(inst.settings.custom) {
+					inst.el.container.className += ' ' + inst.settings.custom;
+				}
 
 				if(target.disabled) {
 					this.disable(target, true);

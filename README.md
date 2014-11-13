@@ -9,8 +9,27 @@ Was inspired by [jQuery Selectbox Plugin](http://www.bulgaria-web-developers.com
 ##Using
 
 ```js
-var sb = Selectbox(selector);
+var sb = Selectbox(selector, settings);
 ```
+
+##Settings
+
+`custom` - className for selectbox containers
+
+###Callbacks
+
+`onInit`
+
+`onChange`
+
+`onOpen`
+
+`onClose`
+
+`onEnable`
+
+`onDisable`
+
 
 ##Methods
 
