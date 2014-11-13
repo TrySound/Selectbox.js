@@ -1,7 +1,7 @@
 Selectbox.js
 ============
 
-VanillaJS Stylized Selectbox UI
+VanillaJS Custom Selectbox
 
 Was inspired by [jQuery Selectbox Plugin](http://www.bulgaria-web-developers.com/projects/javascript/selectbox/)
 
