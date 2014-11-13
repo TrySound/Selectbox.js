@@ -298,10 +298,8 @@
 
 			document.documentElement.addEventListener('mousedown', function (e) {
 				if( ! inst.disabled && inst.open &&
-						e.target.parentNode !== inst.el.options &&
-						e.target !== inst.el.options &&
-						e.target !== inst.el.selector &&
-						e.target !== inst.el.toggle) {
+						e.target.parentNode !== inst.el.container &&
+						e.target.parentNode !== inst.el.options) {
 					self.close(target);
 				}
 			}, false);
