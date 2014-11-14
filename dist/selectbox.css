@@ -1,5 +1,5 @@
 /**
- * Selectbox.js 0.1.0 (2014-11-14) - Stylized Selectbox UI
+ * Selectbox.js 0.2.0 (2014-11-14) - Stylized Selectbox UI
  * Bogdan Chadkin - https://github.com/TrySound/Selectbox.js
  * Free to use under terms of MIT license
  */
@@ -9,6 +9,7 @@
 .sb-container {
 	box-sizing: border-box;
 	display: inline-block;
+	vertical-align: top;
 	width: 200px;
 	height: 30px;
 	line-height: 30px;

@@ -117,17 +117,18 @@
 
 	function setHeightAuto(el) {
 		var temp = el.cloneNode(true),
-		height;
+			height,
+			getStyle = window.getComputedStyle;
 
 		temp.style.cssText = [
-			'width: ' + window.getComputedStyle(el).width,
+			'width: ' + getStyle(el).width,
 			'height: auto',
 			'visibility: hidden',
 			'position: absolute'
 		].join('; ');
 		document.body.appendChild(temp);
 
-		height = window.getComputedStyle(temp).height;
+		height = getStyle(temp).height;
 
 		temp.remove();
 
@@ -335,22 +336,27 @@
 
 		detach: function (target) {
 			var inst = this._instances.get(target),
+				el,
+				clone;
+
+			if(inst) {
 				el = inst.el.container,
 				clone = el.cloneNode(true);
 
-			// Stop Listenings and remove
-			el.parentNode.replaceChild(clone, el);
-			clone.remove();
+				// Stop Listenings and remove
+				el.parentNode.replaceChild(clone, el);
+				clone.remove();
 
-			this._instances.remove(target);
+				this._instances.remove(target);
 
-			target.style.display = '';
+				target.style.display = '';
+			}
 		},
 
 		enable: function (target, silence) {
 			var inst = this._instances.get(target);
 
-			if(inst.disabled) {
+			if(inst && inst.disabled) {
 				inst.disabled = false;
 				inst.target.disabled = false;
 				removeClass(inst.el.container, 'sb-disabled');
@@ -367,7 +373,7 @@
 
 			this.close(target);
 
-			if( ! inst.disabled) {
+			if( inst && ! inst.disabled) {
 				inst.disabled = true;
 				inst.target.disabled = true;
 				removeClass(inst.el.container, 'sb-enabled');
@@ -382,7 +388,7 @@
 		open: function (target, silence) {
 			var inst = this._instances.get(target);
 
-			if( ! inst.disabled && ! inst.open) {
+			if(inst && ! inst.disabled && ! inst.open) {
 				inst.open = true;
 				inst.el.container.className += ' sb-open';
 
@@ -398,7 +404,7 @@
 		close: function (target, silence) {
 			var inst = this._instances.get(target);
 
-			if(inst.open) {
+			if(inst && inst.open) {
 				inst.open = false;
 				removeClass(inst.el.container, 'sb-open');
 

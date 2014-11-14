@@ -6,11 +6,9 @@
 		<link rel="stylesheet" href="src/selectbox.css">
 		<style>
 .sb-container {
-	display: block;
 	margin-bottom: 20px;
 }
-.sb-container + button {
-	width: 200px;
+button {
 	height: 30px;
 	background: #444;
 	border: 1px solid #222;
@@ -18,6 +16,10 @@
 	cursor: pointer;
 	outline: 0;
 }
+.button-send {
+	width: 200px;
+}
+
 		</style>
 	</head>
 	<body>
@@ -44,10 +46,64 @@
 			<option value="10">South Africa</option>
 		</select>
 
-		<button>Send</button>
+		<div>
+			<select name="param" id="sb">
+				<option value="">-- select --</option>
+				<option value="1">Param1</option>
+				<option value="2">Param2</option>
+				<option value="3">Param3</option>
+			</select>
+
+			<button type="button" id="sb-open">Open</button>
+			<button type="button" id="sb-close">Close</button>
+			<button type="button" id="sb-enable">Enable</button>
+			<button type="button" id="sb-disable">Disable</button>
+			<button type="button" id="sb-attach">Attach</button>
+			<button type="button" id="sb-detach">Detach</button>
+		</div>
+
+		<button type="submit" class="button-send">Send</button>
 	</form>
 
 	<script src="src/selectbox.js"></script>
+	<script>
 
+var sb = Selectbox('#sb', {
+	custom: 'custom-sb'
+});
+
+// Preventing auto close
+document.getElementById('sb-open').addEventListener('mousedown', function (e) {
+	Selectbox('select:not(#sb)').close();
+	e.stopPropagation();
+}, false);
+
+document.getElementById('sb-open').addEventListener('click', function () {
+	sb.open();
+}, false);
+
+document.getElementById('sb-close').addEventListener('click', function () {
+	sb.close();
+}, false);
+
+document.getElementById('sb-enable').addEventListener('click', function () {
+	sb.enable();
+}, false);
+
+document.getElementById('sb-disable').addEventListener('click', function () {
+	sb.disable();
+}, false);
+
+document.getElementById('sb-attach').addEventListener('click', function () {
+	sb.attach();
+}, false);
+
+document.getElementById('sb-detach').addEventListener('click', function () {
+	sb.detach();
+}, false);
+
+
+	</script>
+	
 	</body>
 </html>
