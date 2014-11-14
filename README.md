@@ -26,7 +26,7 @@ var sb = Selectbox(selector, settings);
 
 ##Settings
 
-`custom` - className for selectbox containers
+`custom` - className for selectbox containers. `data-sb-custom` attribute have more priority.
 
 **Callbacks:**
 
@@ -37,6 +37,17 @@ var sb = Selectbox(selector, settings);
 `onEnable`,
 `onDisable`
 
+Callbacks also can be added after initializing (onInit will not be called):
+
+```js
+setTimeout(function () {
+	Selectbox('.sb-init', {
+		onOpen: function () {
+			console.log('Open');
+		}
+	});
+},);
+```
 
 ##Methods
 
