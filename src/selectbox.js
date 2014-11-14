@@ -130,7 +130,11 @@
 
 		height = getStyle(temp).height;
 
-		temp.remove();
+		if(temp.remove) {
+			temp.remove();
+		} else {
+			temp.parentNode.removeChild(temp);
+		}
 
 		el.style.height = height;
 	}
@@ -345,7 +349,12 @@
 
 				// Stop Listenings and remove
 				el.parentNode.replaceChild(clone, el);
-				clone.remove();
+
+				if(clone.remove) {
+					clone.remove();
+				} else {
+					clone.parentNode.removeChild(clone);
+				}
 
 				this._instances.remove(target);
 
