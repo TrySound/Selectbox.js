@@ -1,3 +1,9 @@
+/**
+ * Selectbox.js 0.2.0 (2014-11-14) - VanillaJS Custom Selectbox UI
+ * Bogdan Chadkin - https://github.com/TrySound/Selectbox.js
+ * Free to use under terms of MIT license
+ */
+
 (function (module) {
 	"use strict";
 

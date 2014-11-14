@@ -24,9 +24,13 @@ module.exports = function(grunt) {
       options: {
         banner: '<%= banner %>'
       },
-      main: {
+      css: {
         src: ['src/selectbox.pfx.css'],
         dest: 'dist/selectbox.css'
+      },
+      js: {
+        src: ['src/selectbox.js'],
+        dest: 'dist/selectbox.js',
       }
     },
     uglify: {

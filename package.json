@@ -2,7 +2,7 @@
   "name": "selectbox",
   "title": "Selectbox.js",
   "version": "0.2.0",
-  "description": "Stylized Selectbox UI",
+  "description": "VanillaJS Custom Selectbox UI",
   "homepage": "https://github.com/TrySound/Selectbox.js",
   "author": {
     "name": "Bogdan Chadkin",

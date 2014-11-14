@@ -31,7 +31,7 @@ a {
 	<body>
 	
 	<form action="">
-		<select name="country_id" class="sb-init">
+		<select name="country_id" class="sb-init" data-sb-custom="custom-class">
 			<option value="">-- Select country --</option>
 			<optgroup label="North America">
 				<option value="1">USA</option>
@@ -75,6 +75,16 @@ a {
 
 	<script src="src/selectbox.js"></script>
 	<script>
+
+// Delay callback
+setTimeout(function () {
+	Selectbox('.sb-init', {
+		onOpen: function () {
+			console.log('Open');
+		}
+	});
+}, 5000);
+
 
 var sb = Selectbox('#sb', {
 	custom: 'custom-sb'
