@@ -1,5 +1,5 @@
 /**
- * Selectbox.js 0.2.0 (2014-11-14) - VanillaJS Custom Selectbox UI
+ * Selectbox.js 0.2.1 (2014-11-16) - VanillaJS Custom Selectbox UI
  * Bogdan Chadkin - https://github.com/TrySound/Selectbox.js
  * Free to use under terms of MIT license
  */
@@ -20,40 +20,40 @@
 
 	function Instances() {
 		this._instances = {};
-
-		this._def();
+		this._default = null;
 	}
 
 	Instances.prototype = {
-		_gen: function () {
-			var container = this._defaultHTML.cloneNode(true);
+		_generate: function (pfx) {
+			var container, toggle, selector, options;
 
-			return {
-				container: container,
-				toggle: container.getElementsByClassName('sb-toggle')[0],
-				selector: container.getElementsByClassName('sb-selector')[0],
-				options: container.getElementsByClassName('sb-options')[0]
-			};
-		},
-
-		_def: function () {
-			var container = document.createElement('div'),
+			if( ! this._default) {
+				container = document.createElement('div'),
 				toggle = document.createElement('div'),
 				selector = document.createElement('div'),
 				options = document.createElement('ul');
+				
+				container.className = pfx + 'container';
+				toggle.className = pfx + 'toggle';
+				selector.className = pfx + 'selector';
+				options.className = pfx + 'options';
+				
+				container.appendChild(toggle);
+				container.appendChild(selector);
+				container.appendChild(options);
 
-			container.className = 'sb-container';
-			toggle.className = 'sb-toggle';
-			selector.className = 'sb-selector';
-			options.className = 'sb-options';
+				this._default = container;
+			}
 
-			container.appendChild(toggle);
-			container.appendChild(selector);
-			container.appendChild(options);
+			container = this._default.cloneNode(true);
 
-			this._defaultHTML = container;
+			return {
+				container: container,
+				toggle: container.children[0],
+				selector: container.children[1],
+				options: container.children[2]
+			};
 		},
-
 
 		create: function (target) {
 			var id = Math.floor(Math.random() * 99999999);
@@ -67,7 +67,7 @@
 					uid: id,
 					open: false,
 					disabled: false,
-					el: this._gen(),
+					el: this._generate('sb-'),
 					settings: {}
 				};
 
@@ -136,11 +136,7 @@
 
 		height = getStyle(temp).height;
 
-		if(temp.remove) {
-			temp.remove();
-		} else {
-			temp.parentNode.removeChild(temp);
-		}
+		temp.parentNode.removeChild(temp);
 
 		el.style.height = height;
 	}
@@ -273,6 +269,19 @@
 	}
 
 	Main.prototype = {
+		_change: function (target, item) {
+			var inst = this._instances.get(target);
+
+			if(inst.selectedItem) {
+				removeClass(inst.selectedItem, 'sb-option-active');
+			}
+			this._selector.set(target, target[item.getAttribute('data-sb-index')]);
+			addClass(item, 'sb-option-active');
+
+			inst.selectedItem = item;
+
+			inst.settings.onChange && inst.settings.onChange.call(target, inst);
+		},
 
 		_attachEvents: function (target) {
 			var self = this,
@@ -285,7 +294,7 @@
 						el.hasAttribute('data-sb-index') &&
 						! el.getAttribute('data-sb-disabled')) {
 
-					self.change(target, el);
+					self._change(target, el);
 
 					self.close(target);
 				}
@@ -348,7 +357,7 @@
 				insertAfter(inst.el.container, target)
 
 				setTimeout(function () {
-					inst.settings.onInit && inst.settings.onInit.call(inst.target, inst);
+					inst.settings.onInit && inst.settings.onInit.call(target, inst);
 				}, 20);
 			}
 		},
@@ -365,11 +374,7 @@
 				// Stop Listenings and remove
 				el.parentNode.replaceChild(clone, el);
 
-				if(clone.remove) {
-					clone.remove();
-				} else {
-					clone.parentNode.removeChild(clone);
-				}
+				clone.parentNode.removeChild(clone);
 
 				this._instances.remove(target);
 
@@ -377,7 +382,7 @@
 			}
 		},
 
-		enable: function (target, silence) {
+		enable: function (target) {
 			var inst = this._instances.get(target);
 
 			if(inst && inst.disabled) {
@@ -386,13 +391,11 @@
 				removeClass(inst.el.container, 'sb-disabled');
 				inst.el.container.className += ' sb-enabled';
 
-				if( ! silence) {
-					inst.settings.onEnable && inst.settings.onEnable.call(inst.target, inst);
-				}
+				inst.settings.onEnable && inst.settings.onEnable.call(target, inst);
 			}
 		},
 
-		disable: function (target, silence) {
+		disable: function (target) {
 			var inst = this._instances.get(target);
 
 			this.close(target);
@@ -403,13 +406,11 @@
 				removeClass(inst.el.container, 'sb-enabled');
 				inst.el.container.className += ' sb-disabled';
 
-				if( ! silence) {
-					inst.settings.onDisable && inst.settings.onDisable.call(inst.target, inst);
-				}
+				inst.settings.onDisable && inst.settings.onDisable.call(target, inst);
 			}
 		},
 
-		open: function (target, silence) {
+		open: function (target) {
 			var inst = this._instances.get(target);
 
 			if(inst && ! inst.disabled && ! inst.open) {
@@ -419,13 +420,11 @@
 				setHeightAuto(inst.el.options);
 				setMaxHeight(inst.el.container, inst.el.options);
 
-				if( ! silence) {
-					inst.settings.onOpen && inst.settings.onOpen.call(inst.target, inst);
-				}
+				inst.settings.onOpen && inst.settings.onOpen.call(target, inst);
 			}
 		},
 
-		close: function (target, silence) {
+		close: function (target) {
 			var inst = this._instances.get(target);
 
 			if(inst && inst.open) {
@@ -434,24 +433,8 @@
 
 				inst.el.options.style.height = '';
 
-				if( ! silence) {
-					inst.settings.onClose && inst.settings.onClose.call(inst.target, inst);
-				}
+				inst.settings.onClose && inst.settings.onClose.call(target, inst);
 			}
-		},
-
-		change: function (target, item) {
-			var inst = this._instances.get(target);
-
-			if(inst.selectedItem) {
-				removeClass(inst.selectedItem, 'sb-option-active');
-			}
-			this._selector.set(target, target[item.getAttribute('data-sb-index')]);
-			addClass(item, 'sb-option-active');
-
-			inst.selectedItem = item;
-
-			inst.settings.onChange && inst.settings.onChange.call(target, inst);
 		}
 
 	};
@@ -460,99 +443,62 @@
 	var main = null;
 
 	function Selectbox(selector, settings) {
-		var targets,
-			def = function () {},
-			i, max;
-
-		if( ! selector) {
-			return null;
-		}
-
 		if( ! (this instanceof Selectbox) ) {
 			return new Selectbox(selector, settings);
 		}
 
-		if( ! main) {
-			main = new Main;
-		}
-
-		this._main = main;
-
-
-		// Settings Normalize
+		// Normalize
 		this._settings = settings || {};
+		this._targets = ! selector ? []
+						: typeof selector === 'string' ? document.querySelectorAll(selector)
+						: selector.tagName ? [selector]
+						: selector.length ? selector
+						: [];
 
-		// Targets Normalize
-		if(typeof selector === 'string') {
-			targets = document.querySelectorAll(selector);
-		} else if(selector.length && ! selector.tagName) {
-			targets = selector;
-		} else {
-			targets = [selector];
-		}
+		// Init Driver
+		this._main = ! main ? (main = new Main) : main;
 
-		this._targets = [];
-		for(i = 0, max = targets.length; i < max; i++) {
-			this._main.attach(targets[i], settings);
-			this._targets.push(targets[i]);
-		}
+		// Init Component
+		this.attach();
 	}
 
 	Selectbox.prototype = {
-		attach: function () {
+		_each: function (name) {
 			var targets = this._targets,
+				settings = this._settings,
+				method = this._main[name].bind(this._main),
 				i, max;
 
 			for(i = 0, max = targets.length; i < max; i++) {
-				this._main.attach(targets[i], this._settings);
+				method(targets[i], settings);
 			}
 		},
 
-		detach: function () {
-			var targets = this._targets,
-				i, max;
 
-			for(i = 0, max = targets.length; i < max; i++) {
-				this._main.detach(targets[i]);
-			}
+		attach: function () {
+			this._each('attach');
+		},
+
+		detach: function () {
+			this._each('detach');
 		},
 		
 
 		enable: function () {
-			var targets = this._targets,
-				i, max;
-
-			for(i = 0, max = targets.length; i < max; i++) {
-				this._main.enable(targets[i]);
-			}
+			this._each('enable');
 		},
 		
 		disable: function () {
-			var targets = this._targets,
-				i, max;
-
-			for(i = 0, max = targets.length; i < max; i++) {
-				this._main.disable(targets[i]);
-			}
+			this._each('disable');
 		},
 
 
 		open: function () {
-			var targets = this._targets,
-				i, max;
-
-			for(i = 0, max = targets.length; i < max; i++) {
-				this._main.open(targets[i]);
-			}
+			this._each('open');
 		},
 		
 		close: function () {
-			var targets = this._targets,
-				i, max;
-
-			for(i = 0, max = targets.length; i < max; i++) {
-				this._main.close(targets[i]);
-			}
+			this._each('close');
 		}
 	};
 
@@ -560,11 +506,7 @@
 	// Auto-initialize
 
 	document.addEventListener('DOMContentLoaded', function () {
-		var el = document.getElementsByClassName('sb-init'),
-			i, max;
-		for(i = 0, max = el.length; i < max; i++) {
-			Selectbox(el[i]);
-		}
+		Selectbox('.sb-init');
 	}, false);
 
 
