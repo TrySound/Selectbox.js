@@ -74,15 +74,15 @@
 }
 
 .sb-toggle:before {
-	content: '\3e';
+	content: '+';
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	transform: scaleX(1.8) rotate(90deg);
 	font-size: 1.4em;
 	font-weight: bold;
+	text-align: center;
 }
 
 /* Toggle States */
@@ -100,7 +100,8 @@
 }
 
 .sb-open .sb-toggle:before {
-	content: '\3c';
+	content: '\2013';
+	line-height: 24px;
 }
 
 
