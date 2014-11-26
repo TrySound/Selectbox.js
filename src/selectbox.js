@@ -498,11 +498,6 @@
 
 
 	// Auto-initialize
-
-	// Preventing flashing
-	Selectbox('.sb-init');
-
-	// If include in <head>
 	document.addEventListener('DOMContentLoaded', function () {
 		Selectbox('.sb-init');
 	}, false);
